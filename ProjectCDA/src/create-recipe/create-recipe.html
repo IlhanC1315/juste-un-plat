@@ -1,0 +1,190 @@
+<section class="mx-2 md:mx-auto md:max-w-4xl font-monserrat">
+  <div class="flex mt-16 justify-between items-center font-semibold">
+    <i class="fa-solid fa-chevron-left text-orangeJUP text-4xl cursor-pointer" (click)="goBack()"></i>
+    <p class="text-[16px] md:text-lg">Nouvelle recette</p>
+    <button type="submit" form="recetteForm" class="text-orangeJUP text-[16px] md:text-lg hover:underline"
+      routerLink="/profil">Publier</button>
+  </div>
+
+  <form [formGroup]="recetteForm" (ngSubmit)="onSubmit()" id="recetteForm" class="mt-6 space-y-6">
+    <div
+      class="relative w-full h-[180px] rounded-2xl border border-dashed border-gray-400 cursor-pointer hover:border-orangeJUP transition">
+      <input id="fileInput" type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
+        (change)="onFileSelected($event)" />
+      <img *ngIf="preview" [src]="preview" class="absolute top-0 left-0 w-full h-full object-cover rounded-2xl z-10" />
+      <div *ngIf="!preview" class="flex flex-col items-center justify-center w-full h-full z-10">
+        <i class="fa-regular fa-camera text-5xl text-gray-300"></i>
+        <p class="text-gray-400">Ajouter une photo</p>
+      </div>
+
+    </div>
+
+    <input type="text" formControlName="recipeName" placeholder="Nom de la recette"
+      class="border border-gray-200 bg-white text-gray-600 w-full h-12 rounded-2xl px-4 shadow-sm focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white text-sm p-3 rounded-2xl shadow-sm">
+        <label for="prepTime" class="flex items-center gap-2 mb-2 text-gray-700">
+          <i class="fa-solid fa-hourglass-start text-orangeJUP"></i> Préparation
+        </label>
+        <input id="prepTime" type="number" formControlName="prep_time" placeholder="Temps de préparation"
+          class="text-gray-600 px-3 w-full h-10 rounded-xl border border-gray-200 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+      </div>
+      <div class="bg-white text-sm p-3 rounded-2xl shadow-sm">
+        <label for="cookTime" class="flex items-center gap-2 mb-2 text-gray-700">
+          <i class="fa-regular fa-clock text-orangeJUP"></i> Cuisson
+        </label>
+        <input id="cookTime" type="number" formControlName="cook_time" placeholder="Temps de cuisson"
+          class="text-gray-600 px-3 w-full h-10 rounded-xl border border-gray-200 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white text-sm p-3 rounded-2xl shadow-sm">
+        <label for="personne" class="flex items-center gap-2 mb-2 text-gray-700">
+          <i class="fa-solid fa-user-group text-orangeJUP"></i> Personnes
+        </label>
+        <input id="personne" type="number" formControlName="servings" placeholder="Nombre de portions"
+          class="text-gray-600 px-3 w-full h-10 rounded-xl border border-gray-200 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+      </div>
+      <div class="bg-white text-sm p-3 rounded-2xl shadow-sm">
+        <label for="difficulty" class="flex items-center gap-2 mb-2 text-gray-700">
+          <i class="fa-regular fa-clock text-orangeJUP"></i> Difficulté
+        </label>
+        <select id="difficulty" formControlName="difficulty"
+          class="w-full h-12 rounded-xl border border-gray-200 px-3 text-gray-600 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+          <option value="" disabled selected>Choisir...</option>
+          <option *ngFor="let diff of difficultyList" [value]="diff._id">{{ diff.name }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="bg-white p-3 rounded-2xl shadow-sm">
+      <select formControlName="estimated_cost"
+        class="w-full h-12 rounded-xl border border-gray-200 px-3 text-gray-600 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+        <option value="" disabled selected>Coût estimé</option>
+        <option *ngFor="let cost of estimatedCostList" [value]="cost._id">{{ cost.name }}</option>
+      </select>
+    </div>
+    <textarea formControlName="description" placeholder="Description"
+      class="border border-gray-200 bg-white w-full rounded-2xl py-3 px-4 text-gray-600 h-28 shadow-inner focus:border-orangeJUP focus:ring focus:ring-orange-100 transition"></textarea>
+
+    <div formArrayName="ingredientEtapes" class="space-y-6">
+      <h3 class="text-lg font-bold text-gray-700">Ingrédients par étapes</h3>
+
+      <div *ngFor="let etape of ingredientEtapes.controls; let i = index" [formGroupName]="i"
+        class="bg-white p-4 rounded-2xl shadow space-y-3">
+        <div class="flex justify-between items-center">
+          <input type="text" formControlName="nameEtape" placeholder="Nom de l'étape"
+            class="flex-1 border border-gray-200 rounded-xl px-3 h-10">
+          <button type="button" (click)="ingredientEtapes.removeAt(i)" class="ml-2 text-red-500 text-sm">❌ Supprimer
+            étape</button>
+        </div>
+        <div formArrayName="ingredient" class="space-y-3">
+          <div *ngFor="let ing of ingredient(i).controls; let j = index" [formGroupName]="j"
+            class="grid grid-cols-1 md:grid-cols-4 gap-2 items-center">
+            <input type="text" formControlName="ingredientName" placeholder="Nom ingrédient *"
+              class="border border-gray-200 rounded-xl px-3 h-10" required>
+            <input type="text" formControlName="measurementUnit" placeholder="Unité (ex: g, ml, pincée)"
+              class="border border-gray-200 rounded-xl px-3 h-10">
+            <input type="number" formControlName="quantity" placeholder="Qté *"
+              class="border border-gray-200 rounded-xl px-3 h-10" required min="1">
+            <button type="button" (click)="removeIngredient(i, j)" class="text-red-500 text-sm">✖</button>
+          </div>
+        </div>
+        <button type="button" (click)="addIngredient(i)" class="text-orangeJUP mt-2">
+          + Ajouter un ingrédient
+        </button>
+      </div>
+      <button type="button" (click)="addIngredientEtape()" class="mt-4 text-orangeJUP font-semibold">
+        + Ajouter une étape d'ingrédients
+      </button>
+    </div>
+    <div class="bg-white p-3 rounded-2xl shadow-sm">
+      <label for="mainIngredient" class="flex items-center gap-2 mb-2 text-gray-700">
+        <i class="fa-solid fa-drumstick-bite text-orangeJUP"></i> Ingrédient principal
+      </label>
+      <select id="mainIngredient" formControlName="mainIngredient"
+        class="w-full h-12 rounded-xl border border-gray-200 px-3 text-gray-600 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+        <option value="" disabled selected>Choisir...</option>
+        <option *ngFor="let mainIngr of mainIngredientList" [value]="mainIngr._id">{{ mainIngr.name }}</option>
+      </select>
+      <p class="text-[11px] text-gray-400 mt-1">Optionnel</p>
+    </div>
+    <div class="bg-white p-3 rounded-2xl shadow-sm">
+      <label for="cookingMethod" class="flex items-center gap-2 mb-2 text-gray-700">
+        <i class="fa-solid fa-fire-burner text-orangeJUP"></i> Méthode de cuisson
+      </label>
+      <select id="cookingMethod" formControlName="cookingMethod"
+        class="w-full h-12 rounded-xl border border-gray-200 px-3 text-gray-600 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+        <option value="" disabled selected>Choisir...</option>
+        <option *ngFor="let cookingMeth of cookingMethodList" [value]="cookingMeth._id">{{ cookingMeth.name }}</option>
+      </select>
+      <p class="text-[11px] text-gray-400 mt-1">Optionnel</p>
+    </div>
+    <div class="bg-white p-3 rounded-2xl shadow-sm">
+      <label for="requiredTool" class="flex items-center gap-2 mb-2 text-gray-700">
+        <i class="fa-solid fa-spoon text-orangeJUP"></i> Ustensiles
+      </label>
+      <select id="requiredTool" formControlName="required_tools"
+        class="w-full h-12 rounded-xl border border-gray-200 px-3 text-gray-600 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+        <option value="" disabled selected>Choisir...</option>
+        <option *ngFor="let tool of requiredToolsList" [value]="tool._id">{{ tool.name }}</option>
+      </select>
+      <p class="text-[11px] text-gray-400 mt-1">Optionnel</p>
+    </div>
+    <div class="bg-white p-3 rounded-2xl shadow-sm">
+      <label for="occasion" class="flex items-center gap-2 mb-2 text-gray-700">
+        <i class="fa-solid fa-spoon text-orangeJUP"></i> Occasions
+      </label>
+      <select id="occasion" formControlName="occasion"
+        class="w-full h-12 rounded-xl border border-gray-200 px-3 text-gray-600 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+        <option value="" disabled selected>Choisir...</option>
+        <option *ngFor="let occa of occasionList" [value]="occa._id">{{ occa.name }}</option>
+      </select>
+    </div>
+    <div class="bg-white p-3 rounded-2xl shadow-sm">
+      <label for="season" class="flex items-center gap-2 mb-2 text-gray-700">
+        <i class="fa-solid fa-spoon text-orangeJUP"></i> Saison
+      </label>
+      <select id="season" formControlName="season"
+        class="w-full h-12 rounded-xl border border-gray-200 px-3 text-gray-600 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+        <option value="" disabled selected>Choisir...</option>
+        <option *ngFor="let sea of seasonList" [value]="sea._id">{{ sea.name }}</option>
+      </select>
+    </div>
+    <div class="bg-white p-3 rounded-2xl shadow-sm">
+      <label for="category" class="flex items-center gap-2 mb-2 text-gray-700">
+        <i class="fa-solid fa-spoon text-orangeJUP"></i> Catégorie
+      </label>
+      <select id="category" formControlName="category"
+        class="w-full h-12 rounded-xl border border-gray-200 px-3 text-gray-600 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+        <option value="" disabled selected>Choisir...</option>
+        <option *ngFor="let cat of categoryList" [value]="cat._id">{{ cat.name }}</option>
+      </select>
+    </div>
+    <div class="bg-white p-3 rounded-2xl shadow-sm">
+      <label for="diet" class="flex items-center gap-2 mb-2 text-gray-700">
+        <i class="fa-solid fa-spoon text-orangeJUP"></i> Régime
+      </label>
+      <select id="diet" formControlName="diet"
+        class="w-full h-12 rounded-xl border border-gray-200 px-3 text-gray-600 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+        <option value="" disabled selected>Choisir...</option>
+        <option *ngFor="let diets of dietList" [value]="diets._id">{{ diets.name }}</option>
+      </select>
+    </div>
+    <div class="bg-white p-3 rounded-2xl shadow-sm">
+      <label for="origin" class="flex items-center gap-2 mb-2 text-gray-700">
+        <i class="fa-solid fa-spoon text-orangeJUP"></i> Origine
+      </label>
+      <select id="origin" formControlName="origin"
+        class="w-full h-12 rounded-xl border border-gray-200 px-3 text-gray-600 focus:border-orangeJUP focus:ring focus:ring-orange-100 transition">
+        <option value="" disabled selected>Choisir...</option>
+        <option *ngFor="let ori of originList" [value]="ori._id">{{ ori.name }}</option>
+      </select>
+    </div>
+    <textarea formControlName="chefTips" placeholder="Conseil à donner..."
+      class="border border-gray-200 h-24 bg-white w-full rounded-2xl py-3 px-4 text-gray-600 shadow-inner focus:border-orangeJUP focus:ring focus:ring-orange-100 transition"></textarea>
+    <button type="submit"
+      class="bg-orangeJUP text-white w-full py-3 rounded-2xl font-semibold hover:bg-orange-600 transition-colors mb-15">
+      Publier la recette
+    </button>
+  </form>
+</section>

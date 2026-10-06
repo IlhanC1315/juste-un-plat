@@ -1,0 +1,45 @@
+<footer class="fixed bottom-0 w-full bg-white py-3 px-4 shadow-md flex justify-around font-monserrat text-[13px] z-50">
+  <!-- Accueil -->
+  <button 
+    class="flex flex-col items-center"
+    routerLink="/accueil" 
+    routerLinkActive="text-orangeJUP"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <img src="assets/icones/Home Page.svg" alt="Accueil" class="w-8 h-8 mb-1">
+    <span>Accueil</span>
+  </button>
+
+  <!-- Explorer -->
+  <button 
+    class="flex flex-col items-center"
+    routerLink="/explorer"
+    routerLinkActive="text-orangeJUP"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <img src="assets/icones/Compass.svg" alt="Explorer" class="w-8 h-8 mb-1">
+    <span>Explorer</span>
+  </button>
+
+  <!-- Favoris -->
+  <button 
+    class="flex flex-col items-center"
+    routerLink="/favoris"
+    routerLinkActive="text-orangeJUP"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <img src="assets/icones/Heart.svg" alt="Favoris" class="w-8 h-8 mb-1">
+    <span>Favoris</span>
+  </button>
+
+  <!-- Profil -->
+  <button 
+    class="flex flex-col items-center"
+    routerLink="/profil"
+    routerLinkActive="text-orangeJUP"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <img src="assets/icones/Account.svg" alt="Profil" class="w-8 h-8 mb-1">
+    <span>Profil</span>
+  </button>
+</footer>

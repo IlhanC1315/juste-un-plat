@@ -1,0 +1,37 @@
+<app-header h3Header="Accueil"></app-header>
+
+<div class="px-3 lg:px-0 lg:mx-auto lg:max-w-[1200px]">
+
+  <!-- section recette tendance  -->
+  <section class="mt-9">
+    <h2 class="font-monserrat font-bold text-2xl mb-4 lg:text-3xl">Recettes Tendances</h2>
+    <p *ngIf="loading" class="font-monserrat text-gray-400">Chargement...</p>
+    <p *ngIf="!loading && trendingWeekly.length === 0" class="font-monserrat text-gray-400">Aucune recette tendance cette semaine</p>
+    <div *ngIf="!loading && trendingWeekly.length > 0" class="flex space-x-4 overflow-x-auto no-scrollbar py-2 lg:grid lg:grid-cols-3 lg:gap-4 lg:space-x-0">
+      <div *ngFor="let recette of trendingWeekly | slice:0:12" class="flex-shrink-0 lg:flex-shrink-auto">
+        <app-recipe-card-api [recette]="recette"></app-recipe-card-api>
+      </div>
+    </div>
+  </section>
+
+  <!-- section rectte populaire -->
+  <section class="mt-5">
+    <h2 class="font-monserrat font-bold text-2xl mb-4 lg:text-3xl">Les plus populaires</h2>
+    <p *ngIf="loading" class="text-gray-400 font-monserrat">Chargement...</p>
+    <p *ngIf="!loading && topRecipesAllTime.length === 0" class="text-gray-400 font-monserrat">Aucune recette populaire</p>
+    <div *ngIf="!loading && topRecipesAllTime.length > 0" class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      <div *ngFor="let recette of topRecipesAllTime | slice:0:6">
+        <app-recipecard-accueil [recette]="recette"></app-recipecard-accueil>
+      </div>
+    </div>
+  </section>
+
+  <!-- section à découvrir -->
+  <section class="mt-10 mb-20">
+    <h2 class="font-monserrat font-bold text-2xl mb-4 lg:text-3xl ">À Découvrir</h2>
+    <app-balise-pays></app-balise-pays>
+  </section>
+
+</div>
+
+<app-navigation-bar class="fixed bottom-0 w-full"></app-navigation-bar>

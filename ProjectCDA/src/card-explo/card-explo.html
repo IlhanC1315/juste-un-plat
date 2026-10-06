@@ -1,0 +1,28 @@
+<div class="card flex flex-col bg-white mb-4 font-monserrat rounded-2xl shadow-md transition hover:shadow-lg
+         w-[178px] sm:w-[200px] md:w-[220px] lg:w-[260px]" *ngIf="recette">
+  <!-- Image -->
+  <img class="w-full h-[100px] sm:h-[120px] md:h-[140px] lg:h-[180px] object-cover rounded-t-2xl" [src]="imageUrl"
+    alt="{{ recette?.recipeName || 'Image non disponible' }}" />
+
+  <!-- Contenu texte -->
+  <div class="mx-2 mt-2 flex flex-col gap-1">
+    <h3
+      class="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-center line-clamp-2 min-h-[36px] sm:min-h-[40px] md:min-h-[44px] lg:min-h-[48px]">
+      {{ recette?.recipeName }}
+    </h3>
+
+    <div class="flex justify-between items-center mt-1">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-alarm-clock text-orangeJUP text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px]"></i>
+        <p class="text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px]">
+          {{ formatTime((recette?.prep_time || 0) + (recette?.cook_time || 0)) }}
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-utensils text-orangeJUP text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px]"></i>
+        <p class="text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px]">{{ recette?.difficulty?.name }}</p>
+      </div>
+    </div>
+  </div>
+</div>

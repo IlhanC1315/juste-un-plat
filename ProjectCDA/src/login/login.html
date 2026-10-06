@@ -1,0 +1,56 @@
+<div class="mx-5 my-20">
+  <div class="font-monserrat text-center justify-center items-center flex flex-col">
+    <img class="mb-5" src="assets/images/Group168.svg" alt="logo JusteUnPlat">
+    <h1 class="mb-5 text-[32px] font-semibold font-monserrat">Bienvenue</h1>
+    <p>Connectez-vous à votre compte</p>
+  </div>
+
+  <!-- Bloc formulaire -->
+  <div class="flex justify-center">
+    <form class="w-full max-w-md" (submit)="onSubmit()">
+      <div>
+        <p class="text-[15px] font-monserrat font-medium">Email</p>
+        <input
+          class="w-full border border-gray-500 rounded-2xl py-3 px-3 text-[16px] font-monserrat text-gray-400 mb-4"
+          type="email"
+          [(ngModel)]="email"
+          placeholder="Entrez votre email"
+          name="email"
+          required
+        />
+      </div>
+
+      <div>
+        <p class="text-[15px] font-monserrat font-medium">Mot de passe</p>
+        <input
+          class="w-full border border-gray-500 rounded-2xl py-3 px-3 text-[16px] font-monserrat text-gray-400 mb-4"
+          type="password"
+          [(ngModel)]="password"
+          placeholder="Entrez votre mot de passe"
+          name="password"
+          required
+        />
+      </div>
+
+      <button
+        class="w-full border border-orangeJUP bg-orangeJUP text-white py-3 px-5 rounded-2xl text-[16px] font-monserrat font-semibold mb-2 mt-2"
+        type="submit"
+      >
+        Se connecter
+      </button>
+
+      <p *ngIf="errorMessage" style="color:red">{{ errorMessage }}</p>
+    </form>
+  </div>
+
+  <!-- Mentions légales -->
+  <p class="text-center text-[11px] pt-10">
+    En vous connectant, vous acceptez nos Conditions d’utilisation et notre Politique de confidentialité
+  </p>
+
+  <!-- Lien vers création de compte -->
+  <div class="text-center flex justify-center items-center mt-5">
+    <p class="mr-1 text-[11px]">Déjà un compte ?</p>
+    <a class="text-orangeJUP text-[11px]" routerLink="/register">Créez un compte</a>
+  </div>
+</div>

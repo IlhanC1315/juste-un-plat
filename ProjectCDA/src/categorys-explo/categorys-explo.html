@@ -1,0 +1,14 @@
+<div class="mx-4 my-4">
+  <h2 class="mb-2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-monserrat font-bold">
+    {{ categoryName }}
+  </h2>
+
+  <div class="flex overflow-x-auto space-x-4">
+    <app-card-explo *ngFor="let recette of recettes" [recette]="recette">
+    </app-card-explo>
+  </div>
+
+  <div *ngIf="recettes.length === 0" class="text-gray-500 italic">
+    Aucune recette trouvée pour {{ categoryName }}
+  </div>
+</div>

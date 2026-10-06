@@ -1,0 +1,9 @@
+<app-header h3Header="Explorer"></app-header>
+<app-input-search></app-input-search>
+<div *ngFor="let cat of categories">
+  <app-categorys-explo
+    [categoryName]="cat.name"
+    [recettes]="recipesByCategory[cat._id] || []">
+  </app-categorys-explo>
+</div>
+<app-navigation-bar></app-navigation-bar>

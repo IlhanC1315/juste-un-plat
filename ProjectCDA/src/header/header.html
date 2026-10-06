@@ -1,0 +1,37 @@
+<header class="relative px-4 py-2 bg-white rounded-b-lg shadow-md">
+  <!-- Logo -->
+  <h2 class="absolute top-2 left-4 font-fredoka text-[13px] my-5 text-orangeJUP">JusteUnPlat</h2>
+
+  <!-- Conteneur principal -->
+  <div class="flex justify-between items-center mt-8">
+    <h3 class="text-[32px] font-bold mt-5 text-orangeJUP">{{h3Header}}</h3>
+
+    <div class="flex items-center gap-4 mt-5 relative">
+      <img class="w-6 h-6 cursor-pointer" src="assets/icones/Search.svg" alt="Recherche">
+      <img class="w-6 h-6 cursor-pointer" src="assets/icones/User.svg" alt="Utilisateur" (click)="toggleUserMenu()">
+
+      <!-- Menu utilisateur -->
+      <div
+        #userMenu
+        *ngIf="showUserMenu"
+        (click)="$event.stopPropagation()"
+        class="absolute top-10 right-0 bg-white border rounded shadow-lg p-4 w-40 z-50"
+      >
+        <button
+          class="w-full text-left py-2 hover:bg-gray-100"
+          (click)="logout()"
+        >
+          Déconnexion
+        </button>
+
+        <a
+          routerLink="/profil"
+          class="w-full text-left py-2 hover:bg-gray-100 block"
+          (click)="$event.stopPropagation()"
+        >
+          Profil
+        </a>
+      </div>
+    </div>
+  </div>
+</header>

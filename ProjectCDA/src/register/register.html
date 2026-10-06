@@ -1,0 +1,28 @@
+<div class="mx-5">
+  <h2 class="text-[24px] font-monserrat font-medium text-center pt-18 pb-12">Créer un compte</h2>
+  <div class="pb-4 flex justify-center">
+    <form class="w-full max-w-md" (ngSubmit)="onSubmit()">
+      <p class="text-[15px] font-monserrat font-medium">Alias</p>
+      <input class="max-w-full sm:max-w-md lg:max-w-lg border border-gray-500 rounded-2xl w-full max-w-100 py-3 px-3 text-[16px] font-monserrat text-gray-400 mb-4" type="text" [(ngModel)]="alias" name="alias" placeholder="Entrez votre alias" required />
+      <br />
+      <p class="text-[15px] font-monserrat font-medium">Nom d'utilisateur</p>
+      <input class="max-w-full sm:max-w-md lg:max-w-lg border border-gray-500 rounded-2xl w-full max-w-100 py-3 px-3 text-[16px] font-monserrat text-gray-400 mb-4" type="text" [(ngModel)]="userName" name="userName" placeholder="Entrez votre nom d'utilisateur" required />
+      <br />
+      <p class="text-[15px] font-monserrat font-medium">Email</p>
+      <input class="max-w-full sm:max-w-md lg:max-w-lg border border-gray-500 rounded-2xl w-full max-w-100 py-3 px-3 text-[16px] font-monserrat text-gray-400 mb-4" type="email" [(ngModel)]="email" name="email" placeholder="Entrez votre email" required />
+      <br />
+      <p class="text-[15px] font-monserrat font-medium">Mot de passe</p>
+      <input class="max-w-full sm:max-w-md lg:max-w-lg border border-gray-500 rounded-2xl w-full max-w-100 py-3 px-3 text-[16px] font-monserrat text-gray-400 mb-4" type="password" [(ngModel)]="password" name="password" placeholder="Entrez votre mot de passe" required />
+      <br />
+      <p class="text-[15px] font-monserrat font-medium">Date de naissance</p>
+      <input class="max-w-full sm:max-w-md lg:max-w-lg border border-gray-500 rounded-2xl w-full max-w-100 py-3 px-3 text-[16px] font-monserrat text-gray-400 mb-4" type="date" [(ngModel)]="dateOfBirth" name="dateOfBirth" required />
+      <br />
+      <button class="max-w-full sm:max-w-md lg:max-w-lg border border-orangeJUP bg-orangeJUP text-white w-full max-w-100 py-3 px-5 rounded-2xl text-[16px] font-monserrat font-semibold mb-2 mt-4 hover:bg-amber-400 active:bg-blue-700 active:scale-95 transition transform duration-150" type="submit">S'inscrire</button>
+    </form>
+  </div>
+  <p class="text-[11px] text-center font-monserrat">En créant un compte, vous acceptez nos Conditions d’utilisation et notre Politique de confidentialité</p>
+  <div class="text-center font-monserrat mt-4 text-[11px]">
+    <a class="mr-1.5" routerLink="/login">Déjà un compte ?</a>
+    <a class="text-orangeJUP" routerLink="/login">Se connecter</a>
+  </div>
+</div>

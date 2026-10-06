@@ -1,0 +1,77 @@
+<app-header h3Header="Mon Profil"></app-header>
+<section class="mx-2 my-5 font-monserrat">
+  <div class="flex justify-between mb-2">
+    <img class="h-[30px] w-[30px]" src="assets/icones/addUser.svg" alt="">
+    <div class="flex">
+      <img class="h-[30px] w-[30px]" src="assets/icones/Share Rounded.svg" alt="">
+      <img class="h-[30px] w-[30px]" src="assets/icones/Menu.svg" alt="">
+    </div>
+  </div>
+
+  <div *ngIf="user" class="profile-container">
+    <div class="profile-image-section flex relative">
+      <!-- Image cliquable -->
+      <img #profileImage class="rounded-full w-[100px] h-[100px] cursor-pointer" [src]="profileImageUrl"
+        alt="Image de profil" (click)="toggleUserMenu()" width="200">
+
+      <!-- Pop-up -->
+      <div #userSettings *ngIf="showUserMenu"
+        class="absolute top-0 left-28 bg-white border rounded shadow-lg p-4 w-40 z-50"
+        (click)="$event.stopPropagation()">
+        <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+
+        <!-- Bouton pour ouvrir le sélecteur -->
+        <button class="mt-2 px-3 py-1 bg-blue-500 text-white rounded" (click)="fileInput.click()">
+          Changer ma photo
+        </button>
+
+        <!-- Bouton pour uploader -->
+        <button class="mt-2 px-3 py-1 bg-green-500 text-white rounded" (click)="onUpload()" [disabled]="!selectedFile">
+          Valider
+        </button>
+      </div>
+
+      <!-- Infos utilisateur -->
+      <div class="mx-2 w-full">
+        <h3 class="text-[16px] font-medium">{{ user.userName }}</h3>
+        <h4 class="text-[10px]">@{{ user.alias }}</h4>
+
+        <div class="flex justify-evenly gap-3 w-full my-2">
+          <div class="text-[10px] text-center border-r border-gray-500 pr-4">
+            <p class="font-semibold text-[11px]">{{ user.following?.length || 0 }}</p>
+            <p>Suivis</p>
+          </div>
+          <div class="text-[10px] text-center border-r border-gray-500 pr-4">
+            <p class="font-semibold text-[11px]">{{ user.followers?.length || 0 }}</p>
+            <p>Follower</p>
+          </div>
+          <div class="text-[10px] text-center px-2">
+            <p class="font-semibold text-[11px]">{{ user.recipeList?.length || 0 }}</p>
+            <p>Publications</p>
+          </div>
+        </div>
+
+        <p class="text-[10px] font-medium">{{ user.description }}</p>
+      </div>
+    </div>
+
+    <button
+      class="bg-orangeJUP text-center text-[16px] font-medium text-white block h-[50px] rounded-2xl shadow-md justify-center w-full mt-2"
+      routerLink="/createRecipe">
+      <span class="font-bold pr-2">+</span>Crée une nouvelle recette
+    </button>
+    
+  </div>
+</section>
+
+<h2 class="text-2xl font-bold mb-4">Mes Recettes</h2>
+
+<div *ngIf="loadingRecettes">Chargement des recettes...</div>
+<div *ngIf="!loadingRecettes && recettes.length === 0">Vous n'avez encore créé aucune recette.</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+  <app-recipe-card-api *ngFor="let recette of recettes" [recette]="recette"></app-recipe-card-api>
+</div>
+
+
+<app-navigation-bar></app-navigation-bar>

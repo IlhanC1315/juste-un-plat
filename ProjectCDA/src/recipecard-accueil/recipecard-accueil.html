@@ -1,0 +1,39 @@
+<div class="mx-3 my-3">
+  <div
+    class="bg-white flex flex-col w-full rounded-2xl overflow-hidden shadow-lg transition-transform duration-200 hover:scale-105
+           max-w-md sm:max-w-lg md:max-w-xl lg:max-w-full"
+  >
+    <!-- Image -->
+    <img
+      class="w-full h-40 sm:h-48 md:h-56 lg:h-72 object-cover"
+      [src]="recette?.recipeImage ? 'http://localhost:3000' + recette.recipeImage : 'assets/icones/default-recipe.png'"
+      alt="{{ recette?.recipeName }}"
+    />
+
+    <!-- Texte -->
+    <div class="p-4 flex flex-col gap-2">
+      <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-monserrat font-semibold line-clamp-2 text-center">
+        {{ recette?.recipeName }}
+      </p>
+
+      <div class="flex mt-2 gap-6 justify-center flex-wrap">
+        <!-- Temps -->
+        <div class="flex items-center gap-2 text-gray-700">
+          <i class="fa-solid fa-alarm-clock text-orangeJUP text-sm sm:text-base md:text-lg lg:text-xl"></i>
+          <p class="text-sm sm:text-base md:text-lg lg:text-xl font-monserrat">
+            {{ formatTime((recette?.prep_time || 0) + (recette?.cook_time || 0)) }}
+          </p>
+        </div>
+
+        <!-- Portions -->
+        <div class="flex items-center gap-2 text-gray-700">
+          <i class="fa-solid fa-users text-orangeJUP text-sm sm:text-base md:text-lg lg:text-xl"></i>
+          <p class="text-sm sm:text-base md:text-lg lg:text-xl font-monserrat">
+            {{ recette.servings }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
